@@ -2,7 +2,7 @@
 import React from "react";
 
 function index() {
-  return <div>Hello world</div>;
+  return <div>list/todoId</div>;
 }
 
 export default index;
