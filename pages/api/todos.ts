@@ -1,3 +1,0 @@
-/**
- * api endpoints for todos
- */

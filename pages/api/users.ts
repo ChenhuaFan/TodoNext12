@@ -1,4 +1,0 @@
-/**
- * api endpoints for users
- */
-
