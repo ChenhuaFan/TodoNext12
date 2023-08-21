@@ -11,8 +11,8 @@ const TodoForm: React.FC<TodoFormProp> = ({ onSubmit, available }) => {
     return (
         <form onSubmit={onSubmit}>
             <Input
-                name="content"
-                id="content"
+                name="name"
+                id="name"
                 placeholder="What do you want to do today?"
                 endDecorator={
                     <Button

@@ -1,10 +1,11 @@
 import { NextApiHandler } from "next";
-import { getTodos } from '../../../queries/todos';
+import { getAllTodos } from "../../queries/todo";
 
 const handler: NextApiHandler = async (req, res) => {
+    console.log('todos called');
     if (req.method === 'GET') {
         try {
-            const todoLists = await getTodos();
+            const todoLists = await getAllTodos();
             res.status(200).json({
                 data: todoLists
             })

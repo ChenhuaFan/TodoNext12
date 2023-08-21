@@ -1,41 +1,55 @@
-import db from "../../models";
-import todo from "../../models/todo";
+import Todo, { TodoAttributes } from "../../sqlite/todo";
 
-const TodoModel = todo(db.sequelize, db.Sequelize.DataTypes)
-type Todo = typeof TodoModel
+export async function getAllTodos(): Promise<TodoAttributes[]> {
+    try {
+        return await Todo.findAll({ raw: true });
+    } catch (error) {
+        throw new Error(`Error get all todos`);
+    }
+}
 
 export async function createTodo({
-    id,
     name,
-    completed,
     parentId,
     todoListId,
 }: {
-    id: string;
     name: string;
-    completed: boolean;
     parentId?: string;
     todoListId: string;
-}): Promise<Todo | null> {
+}) {
     try {
-        const newTodo = await TodoModel.create({
-            id,
+        const newTodo = await Todo.create({
             name,
-            completed,
+            completed: false,
             parentId,
             todoListId,
         });
-        return newTodo;
+        return newTodo.id;
     } catch (error) {
         throw new Error(`Error creating Todo: ${error.message}`);
     }
 }
 
-export async function getTodoById(id: string): Promise<Todo | null> {
+export async function getTodoById(id: string) {
     try {
-        const todo = await TodoModel.findByPk(id);
+        const todo = await Todo.findByPk(id);
         return todo;
     } catch (error) {
         throw new Error(`Error fetching Todo by ID ${id}: ${error.message}`);
+    }
+}
+
+
+export async function dropTodoById(id: string) {
+    try {
+        const todo = await getTodoById(id);
+        if (todo) {
+            await todo.destroy();
+            return todo;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        throw new Error(`Error deleting Todo by ID ${id}: ${error.message}`);
     }
 }

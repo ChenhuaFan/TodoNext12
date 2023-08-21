@@ -1,14 +1,11 @@
-import db from "../../models";
-import todolist from "../../models/todolist";
-
-const todoListModel = todolist(db.sequelize, db.Sequelize.DataTypes);
+import TodoList from "../../sqlite/todolist";
 
 /**
  * Find all Todos
  * @returns 
  */
-export async function getTodos() {
-    return await todoListModel.findAll();
+export async function getAllTodoLists() {
+    return await TodoList.findAll();
 }
 
 /**
@@ -16,9 +13,9 @@ export async function getTodos() {
  * @param {string} userId - The ID of the user whose Todos you want to retrieve.
  * @returns {Promise<Array>} - A Promise that resolves to an array of Todo items.
  */
-export async function getTodosByUser(userId) {
+export async function getTodoListsByUser(userId) {
     try {
-        const userTodos = await todoListModel.findAll({
+        const userTodos = await TodoList.findAll({
             where: {
                 userId: userId,
             },
@@ -39,7 +36,7 @@ export async function getTodosByUser(userId) {
  */
 export async function createTodoList({ name, userId }) {
     try {
-        const newTodoList = await todoListModel.create({
+        const newTodoList = await TodoList.create({
             name: name,
             userId: userId,
         });
@@ -57,7 +54,7 @@ export async function createTodoList({ name, userId }) {
  */
 export async function dropTodoListBy(id) {
     try {
-        await todoListModel.destroy({
+        await TodoList.destroy({
             where: {
                 id: id,
             },
